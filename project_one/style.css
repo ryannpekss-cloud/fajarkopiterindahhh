@@ -1,0 +1,55 @@
+
+/* ANIMASI MASUK */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-content {
+  animation: fadeUp 1s ease both;
+}
+
+.hero-content h1 {
+  animation: fadeUp 1.2s ease both;
+}
+
+.card {
+  animation: fadeUp .8s ease both;
+  transition: transform .3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+section {
+  animation: fadeIn 1s ease both;
+}
+
+.logo {
+  animation: fadeIn 1s ease both;
+}
+
+nav {
+  animation: fadeIn 1.2s ease both;
+}
+
+/* Menghormati pengaturan pengurangan animasi */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

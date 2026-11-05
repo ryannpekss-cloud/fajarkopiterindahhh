@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fajar Kopi Terindah</title>
+<style>
+:root {
+  --bg:#f5eee3;
+  --card:#fffaf2;
+  --text:#392619;
+  --brown:#754629;
+  --accent:#b98250;
+  --muted:#806e5e;
+}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;transition:.3s;
+}
+body.dark{
+  --bg:#211812;--card:#33251d;--text:#fff1df;
+  --brown:#bd895e;--accent:#d4a477;--muted:#c6b19e;
+}
+header{
+  background:var(--card);padding:18px 7%;
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:5;box-shadow:0 2px 12px #0001;
+}
+.logo{font-size:21px;font-weight:bold;color:var(--brown)}
+nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+nav a{color:var(--text);text-decoration:none;font-size:14px}
+button{
+  border:0;border-radius:9px;padding:11px 16px;
+  background:var(--brown);color:white;cursor:pointer;
+}
+button:hover{opacity:.85}
+.hero{
+  min-height:440px;padding:80px 8%;
+  display:flex;align-items:center;
+  background:linear-gradient(90deg,#24160de8,#24160d70),
+  url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1600')
+  center/cover;color:white;
+}
+.hero-content{max-width:600px}
+.hero small{letter-spacing:4px;color:#e6b986}
+.hero h1{font-size:clamp(40px,7vw,68px);margin:15px 0}
+.hero p{line-height:1.8;color:#eee}
+section{padding:55px 7%}
+.section-title{text-align:center;margin-bottom:30px}
+.section-title h2{font-size:30px;color:var(--brown)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.card{
+  background:var(--card);border-radius:15px;overflow:hidden;
+  box-shadow:0 4px 15px #0001;
+}
+.card img{width:100%;height:170px;object-fit:cover}
+.card-content{padding:17px}
+.card h3{margin:5px 0}
+.card p{color:var(--muted);font-size:14px;line-height:1.5}
+.price{font-weight:bold;color:var(--accent);margin:12px 0}
+input,select{
+  width:100%;padding:11px;margin:7px 0 13px;
+  border:1px solid #b9a38d;border-radius:8px;
+  background:var(--card);color:var(--text);
+}
+.panel{
+  background:var(--card);padding:22px;border-radius:14px;
+  box-shadow:0 3px 12px #0001;
+}
+.cart-item{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:12px 0;border-bottom:1px solid #98765a55;
+}
+.total{font-size:19px;font-weight:bold;margin:15px 0}
+footer{
+  background:#291b13;color:#f6e7d6;text-align:center;padding:35px;
+}
+.muted{color:var(--muted);font-size:13px}
+@media(max-width:650px){
+ header{flex-direction:column;gap:13px}
+ nav{justify-content:center}
+ .hero{padding:60px 7%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">☕ FAJAR KOPI TERINDAH</div>
+  <nav>
+    <a href="#home">Beranda</a>
+    <a href="#menu">Menu</a>
+    <a href="#keranjang">Keranjang</a>
+    <a href="#keuntungan">Keuntungan</a>
+    <a href="#riwayat">Riwayat</a>
+    <button onclick="toggleDark()">🌙</button>
+  </nav>
+</header>
+
+<div class="hero" id="home">
+  <div class="hero-content">
+    <small>FRESH COFFEE • WARM MOMENTS</small>
+    <h1>Fajar Kopi Terindah</h1>
+    <p>
+      Awali harimu dengan secangkir kebahagiaan.
+      Nikmati aroma kopi pilihan, rasa istimewa,
+      dan suasana hangat di setiap tegukan.
+    </p>
+    <a href="#menu"><button>Jelajahi Menu ☕</button></a>
+  </div>
+</div>
+
+<section id="menu">
+  <div class="section-title">
+    <h2>☕ Menu Kopi Kami</h2>
+    <p class="muted">Pilih kopi favoritmu hari ini!</p>
+  </div>
+  <input id="search" placeholder="🔎 Cari menu kopi..." oninput="renderMenu()">
+  <div class="grid" id="menuList"></div>
+</section>
+
+<section id="keranjang">
+  <div class="section-title"><h2>🛒 Keranjang Pesanan</h2></div>
+  <div class="panel">
+    <div id="cartList">Belum ada pesanan.</div>
+    <label>Kode Promo</label>
+    <input id="promo" placeholder="Masukkan FAJAR10">
+    <button onclick="applyPromo()">Gunakan Promo</button>
+    <div class="total" id="total">Total: Rp0</div>
+    <button onclick="checkout()">Checkout via WhatsApp</button>
+    <button onclick="clearCart()" style="background:#8b3930">Kosongkan</button>
+    <p class="muted">Promo FAJAR10: diskon 10% dengan minimal pembelian Rp20.000.</p>
+  </div>
+  <br>
+  <div class="panel">
+    <h3>⚙️ Pengaturan Penjual</h3>
+    <label>Nomor WhatsApp Penjual</label>
+    <input id="phone" placeholder="Contoh: 6281234567890">
+    <button onclick="savePhone()">Simpan Nomor</button>
+  </div>
+</section>
+
+<section id="keuntungan">
+  <div class="section-title">
+    <h2>📊 Kalkulator Keuntungan</h2>
+    <p class="muted">Hitung perkiraan hasil usaha kopimu.</p>
+  </div>
+  <div class="panel">
+    <label>Modal Awal (Rp)</label>
+    <input type="number" id="modal" placeholder="Contoh: 500000">
+    <label>Biaya Operasional dan Bahan (Rp)</label>
+    <input type="number" id="biaya" placeholder="Contoh: 100000">
+    <label>Jumlah Gelas Terjual</label>
+    <input type="number" id="jumlah" placeholder="Contoh: 50">
+    <label>Harga Jual Per Gelas (Rp)</label>
+    <input type="number" id="harga" placeholder="Contoh: 15000">
+    <button onclick="calculate()">Hitung Keuntungan</button>
+    <div id="hasil"></div>
+  </div>
+</section>
+
+<section id="riwayat">
+  <div class="section-title"><h2>🧾 Riwayat Pesanan</h2></div>
+  <div class="panel">
+    <div id="history">Belum ada riwayat pesanan.</div>
+    <button onclick="clearHistory()" style="background:#8b3930">Hapus Riwayat</button>
+  </div>
+</section>
+
+<footer>
+  <h2>☕ Fajar Kopi Terindah</h2>
+  <p>Secangkir kopi, sejuta cerita.</p>
+  <p>Terima kasih telah berkunjung!</p>
+  <small>© 2026 Fajar Kopi Terindah</small>
+</footer>
+
+<script>
+const menus=[
+ {name:"Espresso",price:12000,desc:"Kopi pekat dengan aroma kuat.",img:"https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600"},
+ {name:"Cappuccino",price:18000,desc:"Perpaduan espresso dan foam susu.",img:"https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=600"},
+ {name:"Cafe Latte",price:20000,desc:"Kopi lembut dengan susu creamy.",img:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600"},
+ {name:"Americano",price:15000,desc:"Kopi hitam dengan rasa autentik.",img:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600"},
+ {name:"Kopi Susu Gula Aren",price:18000,desc:"Manis gula aren dan kopi pilihan.",img:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600"},
+ {name:"Mocha",price:22000,desc:"Kombinasi kopi, susu, dan cokelat.",img:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600"}
+];
+
+let cart=JSON.parse(localStorage.getItem("fajarCart")||"[]");
+let history=JSON.parse(localStorage.getItem("fajarHistory")||"[]");
+let discount=false;
+
+function rupiah(n){
+ return "Rp"+Number(n).toLocaleString("id-ID");
+}
+
+function renderMenu(){
+ const q=document.getElementById("search").value.toLowerCase();
+ document.getElementById("menuList").innerHTML=menus
+ .filter(m=>m.name.toLowerCase().includes(q))
+ .map(m=>`
+ <div class="card">
+ <img src="${m.img}" alt="${m.name}">
+ <div class="card-content">
+ <h3>${m.name}</h3>
+ <p>${m.desc}</p>
+ <div class="price">${rupiah(m.price)}</div>
+ <button onclick="addCart('${m.name}')">+ Tambah Pesanan</button>
+ </div></div>`).join("");
+}
+
+function addCart(name){
+ let item=cart.find(x=>x.name===name);
+ if(item)item.qty++;
+ else cart.push({name,qty:1});
+ saveCart();
+}
+
+function saveCart(){
+ localStorage.setItem("fajarCart",JSON.stringify(cart));
+ renderCart();
+}
+
+function renderCart(){
+ let html="",subtotal=0;
+ cart.forEach((item,i)=>{
+ let m=menus.find(x=>x.name===item.name);
+ let total=m.price*item.qty;
+ subtotal+=total;
+ html+=`<div class="cart-item">
+ <div><b>${item.name}</b><br>${rupiah(m.price)} × ${item.qty}</div>
+ <div>
+ ${rupiah(total)}
+ <br><button onclick="changeQty(${i},-1)">−</button>
+ <button onclick="changeQty(${i},1)">+</button>
+ </div></div>`;
+ });
+ document.getElementById("cartList").innerHTML=html||"Belum ada pesanan.";
+ let disc=discount&&subtotal>=20000?subtotal*.1:0;
+ document.getElementById("total").innerHTML=
+ `Subtotal: ${rupiah(subtotal)}<br>Diskon: ${rupiah(disc)}<br>Total: ${rupiah(subtotal-disc)}`;
+}
+
+function changeQty(i,n){
+ cart[i].qty+=n;
+ if(cart[i].qty<=0)cart.splice(i,1);
+ saveCart();
+}
+
+function applyPromo(){
+ let subtotal=cart.reduce((s,x)=>s+menus.find(m=>m.name===x.name).price*x.qty,0);
+ if(document.getElementById("promo").value.trim().toUpperCase()==="FAJAR10"&&subtotal>=20000){
+ discount=true;alert("Promo berhasil digunakan!");
+ }else{
+ discount=false;alert("Kode promo salah atau minimum belanja belum tercapai.");
+ }
+ renderCart();
+}
+
+function checkout(){
+ if(!cart.length)return alert("Keranjang masih kosong.");
+ let phone=document.getElementById("phone").value.replace(/\D/g,"");
+ if(!phone)return alert("Masukkan nomor WhatsApp penjual terlebih dahulu.");
+ let subtotal=cart.reduce((s,x)=>s+menus.find(m=>m.name===x.name).price*x.qty,0);
+ let disc=discount&&subtotal>=20000?subtotal*.1:0;
+ let total=subtotal-disc;
+ let message="Halo, saya ingin memesan di Fajar Kopi Terindah:\n\n";
+ cart.forEach(x=>message+=`${x.name} x${x.qty}\n`);
+ message+=`\nSubtotal: ${rupiah(subtotal)}\nDiskon: ${rupiah(disc)}\nTotal: ${rupiah(total)}\n\nTerima kasih!`;
+ history.unshift({date:new Date().toLocaleString("id-ID"),total,items:cart.map(x=>({...x}))});
+ localStorage.setItem("fajarHistory",JSON.stringify(history));
+ localStorage.setItem("fajarCart",JSON.stringify([]));
+ window.open("https://wa.me/"+phone+"?text="+encodeURIComponent(message),"_blank");
+ cart=[];discount=false;saveCart();renderHistory();
+}
+
+function savePhone(){
+ localStorage.setItem("fajarPhone",document.getElementById("phone").value);
+ alert("Nomor WhatsApp berhasil disimpan.");
+}
+
+function clearCart(){
+ if(confirm("Kosongkan keranjang?")){
+ cart=[];discount=false;saveCart();
+ }
+}
+
+function calculate(){
+ let modal=+document.getElementById("modal").value;
+ let biaya=+document.getElementById("biaya").value;
+ let jumlah=+document.getElementById("jumlah").value;
+ let harga=+document.getElementById("harga").value;
+ if(biaya<0||jumlah<=0||harga<=0||modal<0)
+ return alert("Masukkan data yang valid.");
+ let omzet=jumlah*harga;
+ let laba=omzet-biaya;
+ document.getElementById("hasil").innerHTML=`
+ <div class="panel" style="margin-top:20px">
+ <p>Modal awal: <b>${rupiah(modal)}</b></p>
+ <p>Omzet: <b>${rupiah(omzet)}</b></p>
+ <p>Biaya: <b>${rupiah(biaya)}</b></p>
+ <h3 style="color:var(--brown)">Laba Bersih: ${rupiah(laba)}</h3>
+ </div>`;
+}
+
+function renderHistory(){
+ document.getElementById("history").innerHTML=history.length?
+ history.map(x=>`<div class="cart-item">
+ <div>${x.date}<br>${x.items.map(i=>i.name+" x"+i.qty).join(", ")}</div>
+ <b>${rupiah(x.total)}</b></div>`).join("")
+ :"Belum ada riwayat pesanan.";
+}
+
+function clearHistory(){
+ if(confirm("Hapus semua riwayat?")){
+ history=[];localStorage.removeItem("fajarHistory");renderHistory();
+ }
+}
+
+function toggleDark(){
+ document.body.classList.toggle("dark");
+ localStorage.setItem("fajarDark",document.body.classList.contains("dark"));
+}
+
+if(localStorage.getItem("fajarDark")==="true")document.body.classList.add("dark");
+document.getElementById("phone").value=localStorage.getItem("fajarPhone")||"";
+renderMenu();renderCart();renderHistory();
+</script>
+</body>
+</html>
